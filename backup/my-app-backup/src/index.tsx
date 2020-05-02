@@ -1,16 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { Hello, HelloClass} from './components/Hello'
+// import App from './App';
+import { HelloF } from './Hello';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Hello name={'Yugo'} enthusiasmLevel={3}/>
-    <HelloClass name={'Yugo'} enthusiasmLevel={3}/>
+    {/* <App name={"Yugo"} enthusiamsLevel={3}/> */}
+    <HelloF name={"Yugo"} enthusiamsLevel={3} date={new Date()}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

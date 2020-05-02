@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { Hello, HelloClass} from './components/Hello'
+// import App from './App';
+import { Hello , HelloClass} from './components/Hello'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Hello name={'Yugo'} enthusiasmLevel={3}/>
-    <HelloClass name={'Yugo'} enthusiasmLevel={3}/>
+    <Hello　name={'Yugo'} enthusiasmLevel={3} />
+    <HelloClass name={'Yugo'} enthusiasmLevel={3} />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root') as HTMLElement
 );
 
 // If you want your app to work offline and load faster, you can change
