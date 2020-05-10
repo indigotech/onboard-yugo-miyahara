@@ -1,24 +1,35 @@
 import * as React from "react";
 import "./inputs.css";
 
-export class InputEmail extends React.Component {
+interface Props{
+    label: string,
+    type: string,
+    name: string,
+    id: string,
+    errorStyle?: string,
+    onChange: (e:React.ChangeEvent<HTMLInputElement>) => void
+}
+
+// interface State{
+//     inputValue: string | undefined
+// }
+
+export class Input extends React.Component<Props> {
+    // constructor(props: Props){
+    //     super(props);
+    //     this.state = {
+    //         inputValue: ""
+    //     };
+    // }
+
     render() {
         return (
             <div className="input">
-                <label>E-mail</label>
-                <input type="email" name="email" id="email" />
+                <label>{this.props.label}</label>
+                <input type={this.props.type} name={this.props.name} id={this.props.id} onChange={this.props.onChange} className={this.props.errorStyle}/>
             </div>
         );
     }
 }
 
-export class InputPassword extends React.Component {
-    render() {
-        return (
-            <div className="input">
-                <label>Password</label>
-                <input type="password" name="password" id="password" />
-            </div>
-        );
-    }
-}
+

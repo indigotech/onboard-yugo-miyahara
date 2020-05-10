@@ -4,7 +4,7 @@
     margin: 16px 0;
     width: 100%;
 }
-.input input{
+input{
     height: 36px;
     border: 1px solid gray;
     border-radius: 10px;
