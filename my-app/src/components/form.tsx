@@ -53,8 +53,6 @@ export class FormLogin extends React.Component<object, State> {
         // this.setState({...this.state, errors:{...this.state.errors,[e.target.name]: ""},[e.target.name]: e.target.value});
     };
 
-    
-
     handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if(validateErrors(this.state.errors) && this.validateEmpty(this.state.fields, this.state.errors)){
