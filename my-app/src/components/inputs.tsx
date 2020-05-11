@@ -10,18 +10,7 @@ interface Props{
     onChange: (e:React.ChangeEvent<HTMLInputElement>) => void
 }
 
-// interface State{
-//     inputValue: string | undefined
-// }
-
 export class Input extends React.Component<Props> {
-    // constructor(props: Props){
-    //     super(props);
-    //     this.state = {
-    //         inputValue: ""
-    //     };
-    // }
-
     render() {
         return (
             <div className="input">
