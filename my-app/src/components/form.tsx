@@ -2,7 +2,7 @@ import * as React from "react";
 import "./form.css";
 import { Input } from "./inputs";
 import { PrimaryButton } from "./buttons";
-import ApolloClient from "apollo-boost";
+import { Mutation, MutationFunction, MutationResult } from "react-apollo";
 import { gql } from "apollo-boost";
 
 interface State {
@@ -16,9 +16,19 @@ interface State {
     };
 }
 
-const client = new ApolloClient({
-    uri: "https://tq-template-server-sample.herokuapp.com/graphql",
-});
+const LOGIN = gql`
+    mutation Login($data: LoginInputType!) {
+        login(data: $data) {
+            token
+            user {
+                id
+                name
+                email
+                role
+            }
+        }
+    }
+`;
 
 export class FormLogin extends React.Component<object, State> {
     constructor(props: object) {
@@ -59,25 +69,21 @@ export class FormLogin extends React.Component<object, State> {
         // this.setState({...this.state, errors:{...this.state.errors,[e.target.name]: ""},[e.target.name]: e.target.value});
     };
 
-    handleSubmit = (e: React.FormEvent) => {
+    handleSubmit = (login: MutationFunction) => (e: React.FormEvent) => {
         e.preventDefault();
-        client.query({
-            query: gql`
-                    {
-                        user(id: "51"){
-                            name
-                            email
-                        }
-                    }
-                `,
-        })
-        .then(result => console.log(result))
-        .catch(error => console.warn(error))
         if (
             validateErrors(this.state.errors) &&
             this.validateEmpty(this.state.fields, this.state.errors)
         ) {
-            console.info("Formulário válido");
+            login({
+                variables: {
+                    data:{
+                        email: this.state.fields.email,
+                        password: this.state.fields.password,
+                    }
+                },
+            })
+                .then(result => console.log(result))
         } else {
             console.info("Formulário inválido");
         }
@@ -97,31 +103,37 @@ export class FormLogin extends React.Component<object, State> {
     render() {
         const { errors } = this.state;
         return (
-            <form onSubmit={this.handleSubmit} noValidate>
-                <Input
-                    type="email"
-                    label="E-mail"
-                    name="email"
-                    id="email"
-                    onChange={this.handleChange}
-                    errorStyle={this.state.errors.email && "fieldError"}
-                />
-                {errors.email.length > 0 && (
-                    <span className="error">{errors.email}</span>
+            <Mutation mutation={LOGIN}>
+                {(login: MutationFunction, { data }: MutationResult) => (
+                    <form onSubmit={this.handleSubmit(login)} noValidate>
+                        <Input
+                            type="email"
+                            label="E-mail"
+                            name="email"
+                            id="email"
+                            onChange={this.handleChange}
+                            errorStyle={this.state.errors.email && "fieldError"}
+                        />
+                        {errors.email.length > 0 && (
+                            <span className="error">{errors.email}</span>
+                        )}
+                        <Input
+                            type="password"
+                            label="Senha"
+                            name="password"
+                            id="password"
+                            onChange={this.handleChange}
+                            errorStyle={
+                                this.state.errors.password && "fieldError"
+                            }
+                        />
+                        {errors.password.length > 0 && (
+                            <span className="error">{errors.password}</span>
+                        )}
+                        <PrimaryButton />
+                    </form>
                 )}
-                <Input
-                    type="password"
-                    label="Senha"
-                    name="password"
-                    id="password"
-                    onChange={this.handleChange}
-                    errorStyle={this.state.errors.password && "fieldError"}
-                />
-                {errors.password.length > 0 && (
-                    <span className="error">{errors.password}</span>
-                )}
-                <PrimaryButton />
-            </form>
+            </Mutation>
         );
     }
 }

@@ -6,7 +6,7 @@ import ApolloClient from 'apollo-boost';
 import * as serviceWorker from "./serviceWorker";
 import { Login } from "./components/login";
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
     uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
 });
 
