@@ -14,7 +14,6 @@ export class Input extends React.Component<Props> {
     render() {
         return (
             <div className="input">
-                {this.props.children}
                 <label>{this.props.label}</label>
                 <input type={this.props.type} name={this.props.name} id={this.props.id} onChange={this.props.onChange} className={this.props.errorStyle}/>
             </div>

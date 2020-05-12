@@ -69,21 +69,25 @@ export class FormLogin extends React.Component<object, State> {
         // this.setState({...this.state, errors:{...this.state.errors,[e.target.name]: ""},[e.target.name]: e.target.value});
     };
 
-    handleSubmit = (login: MutationFunction) => (e: React.FormEvent) => {
+    handleSubmit = (login: MutationFunction) => async (e: React.FormEvent) => {
         e.preventDefault();
         if (
             validateErrors(this.state.errors) &&
             this.validateEmpty(this.state.fields, this.state.errors)
         ) {
-            login({
-                variables: {
-                    data:{
-                        email: this.state.fields.email,
-                        password: this.state.fields.password,
-                    }
-                },
-            })
-                .then(result => console.log(result))
+            try{
+                const userResponse = await login({
+                    variables: {
+                        data: {
+                            email: this.state.fields.email,
+                            password: this.state.fields.password,
+                        },
+                    },
+                })
+                window.localStorage.setItem('token', userResponse.data.login.token);
+            } catch (error){
+                console.log(error);
+            }
         } else {
             console.info("Formulário inválido");
         }
