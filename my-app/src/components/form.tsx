@@ -2,6 +2,8 @@ import * as React from "react";
 import "./form.css";
 import { Input } from "./inputs";
 import { PrimaryButton } from "./buttons";
+import ApolloClient from "apollo-boost";
+import { gql } from "apollo-boost";
 
 interface State {
     fields: {
@@ -14,13 +16,17 @@ interface State {
     };
 }
 
+const client = new ApolloClient({
+    uri: "https://tq-template-server-sample.herokuapp.com/graphql",
+});
+
 export class FormLogin extends React.Component<object, State> {
     constructor(props: object) {
         super(props);
         this.state = {
             fields: {
                 email: "",
-                password: ""
+                password: "",
             },
             errors: {
                 email: "",
@@ -49,28 +55,47 @@ export class FormLogin extends React.Component<object, State> {
             default:
                 break;
         }
-        this.setState({fields: fields ,errors: errors});
+        this.setState({ fields: fields, errors: errors });
         // this.setState({...this.state, errors:{...this.state.errors,[e.target.name]: ""},[e.target.name]: e.target.value});
     };
 
     handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if(validateErrors(this.state.errors) && this.validateEmpty(this.state.fields, this.state.errors)){
-            console.info('Formulário válido')
-        } else{
-            console.info('Formulário inválido')
+        client.query({
+            query: gql`
+                    {
+                        user(id: "51"){
+                            name
+                            email
+                        }
+                    }
+                `,
+        })
+        .then(result => console.log(result))
+        .catch(error => console.warn(error))
+        if (
+            validateErrors(this.state.errors) &&
+            this.validateEmpty(this.state.fields, this.state.errors)
+        ) {
+            console.info("Formulário válido");
+        } else {
+            console.info("Formulário inválido");
         }
-    }
+    };
 
     validateEmpty = (fields: any, errors: any) => {
         let valid = false;
-        Object.keys(fields).map( (key) => fields[key].length > 0 ? valid = true : errors[key] = "Campo obrigatório")
-        this.setState({errors: errors});
-        return valid
-    }
+        Object.keys(fields).map((key) =>
+            fields[key].length > 0
+                ? (valid = true)
+                : (errors[key] = "Campo obrigatório")
+        );
+        this.setState({ errors: errors });
+        return valid;
+    };
 
     render() {
-        const {errors} = this.state;
+        const { errors } = this.state;
         return (
             <form onSubmit={this.handleSubmit} noValidate>
                 <Input
@@ -79,9 +104,11 @@ export class FormLogin extends React.Component<object, State> {
                     name="email"
                     id="email"
                     onChange={this.handleChange}
-                    errorStyle={this.state.errors.email  && "fieldError"}
+                    errorStyle={this.state.errors.email && "fieldError"}
                 />
-                {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
+                {errors.email.length > 0 && (
+                    <span className="error">{errors.email}</span>
+                )}
                 <Input
                     type="password"
                     label="Senha"
@@ -90,7 +117,9 @@ export class FormLogin extends React.Component<object, State> {
                     onChange={this.handleChange}
                     errorStyle={this.state.errors.password && "fieldError"}
                 />
-                {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
+                {errors.password.length > 0 && (
+                    <span className="error">{errors.password}</span>
+                )}
                 <PrimaryButton />
             </form>
         );
@@ -104,8 +133,9 @@ const validEmailRegex = new RegExp(
 
 const validateErrors = (errors: any) => {
     let valid = true;
-    Object.keys(errors).map( (key) =>  errors[key].length > 0 ? valid = false:true )
+    Object.keys(errors).map((key) =>
+        errors[key].length > 0 ? (valid = false) : true
+    );
 
-    return valid
-}
-
+    return valid;
+};
