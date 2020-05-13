@@ -2,6 +2,8 @@ import * as React from "react";
 import "./form.css";
 import { Input } from "./inputs";
 import { PrimaryButton } from "./buttons";
+import { Mutation, MutationFunction, MutationResult } from "react-apollo";
+import { gql } from "apollo-boost";
 
 interface State {
     fields: {
@@ -14,13 +16,27 @@ interface State {
     };
 }
 
+const LOGIN = gql`
+    mutation Login($data: LoginInputType!) {
+        login(data: $data) {
+            token
+            user {
+                id
+                name
+                email
+                role
+            }
+        }
+    }
+`;
+
 export class FormLogin extends React.Component<object, State> {
     constructor(props: object) {
         super(props);
         this.state = {
             fields: {
                 email: "",
-                password: ""
+                password: "",
             },
             errors: {
                 email: "",
@@ -49,52 +65,79 @@ export class FormLogin extends React.Component<object, State> {
             default:
                 break;
         }
-        this.setState({fields: fields ,errors: errors});
+        this.setState({ fields: fields, errors: errors });
         // this.setState({...this.state, errors:{...this.state.errors,[e.target.name]: ""},[e.target.name]: e.target.value});
     };
 
-    
-
-    handleSubmit = (e: React.FormEvent) => {
+    handleSubmit = (login: MutationFunction) => async (e: React.FormEvent) => {
         e.preventDefault();
-        if(validateErrors(this.state.errors) && this.validateEmpty(this.state.fields, this.state.errors)){
-            console.info('Formulário válido')
-        } else{
-            console.info('Formulário inválido')
+        if (
+            validateErrors(this.state.errors) &&
+            this.validateEmpty(this.state.fields, this.state.errors)
+        ) {
+            try{
+                const userResponse = await login({
+                    variables: {
+                        data: {
+                            email: this.state.fields.email,
+                            password: this.state.fields.password,
+                        },
+                    },
+                })
+                window.localStorage.setItem('token', userResponse.data.login.token);
+            } catch (error){
+                console.log(error);
+            }
+        } else {
+            console.info("Formulário inválido");
         }
-    }
+    };
 
     validateEmpty = (fields: any, errors: any) => {
         let valid = false;
-        Object.keys(fields).map( (key) => fields[key].length > 0 ? valid = true : errors[key] = "Campo obrigatório")
-        this.setState({errors: errors});
-        return valid
-    }
+        Object.keys(fields).map((key) =>
+            fields[key].length > 0
+                ? (valid = true)
+                : (errors[key] = "Campo obrigatório")
+        );
+        this.setState({ errors: errors });
+        return valid;
+    };
 
     render() {
-        const {errors} = this.state;
+        const { errors } = this.state;
         return (
-            <form onSubmit={this.handleSubmit} noValidate>
-                <Input
-                    type="email"
-                    label="E-mail"
-                    name="email"
-                    id="email"
-                    onChange={this.handleChange}
-                    errorStyle={this.state.errors.email  && "fieldError"}
-                />
-                {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
-                <Input
-                    type="password"
-                    label="Senha"
-                    name="password"
-                    id="password"
-                    onChange={this.handleChange}
-                    errorStyle={this.state.errors.password && "fieldError"}
-                />
-                {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
-                <PrimaryButton />
-            </form>
+            <Mutation mutation={LOGIN}>
+                {(login: MutationFunction, { data }: MutationResult) => (
+                    <form onSubmit={this.handleSubmit(login)} noValidate>
+                        <Input
+                            type="email"
+                            label="E-mail"
+                            name="email"
+                            id="email"
+                            onChange={this.handleChange}
+                            errorStyle={this.state.errors.email && "fieldError"}
+                        />
+                        {errors.email.length > 0 && (
+                            <span className="error">{errors.email}</span>
+                        )}
+                        <Input
+                            type="password"
+                            label="Senha"
+                            name="password"
+                            id="password"
+                            onChange={this.handleChange}
+                            errorStyle={
+                                this.state.errors.password && "fieldError"
+                            }
+                        />
+                        {errors.password.length > 0 && (
+                            <span className="error">{errors.password}</span>
+                        )}
+                        <PrimaryButton />
+                    </form>
+                )}
+            </Mutation>
         );
     }
 }
@@ -106,8 +149,9 @@ const validEmailRegex = new RegExp(
 
 const validateErrors = (errors: any) => {
     let valid = true;
-    Object.keys(errors).map( (key) =>  errors[key].length > 0 ? valid = false:true )
+    Object.keys(errors).map((key) =>
+        errors[key].length > 0 ? (valid = false) : true
+    );
 
-    return valid
-}
-
+    return valid;
+};
