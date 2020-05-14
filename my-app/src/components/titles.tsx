@@ -1,11 +1,15 @@
 import * as React from "react";
 import "./titles.css";
 
-export class HDisplay extends React.Component {
+interface Props{
+    text: string
+}
+
+export class HDisplay extends React.Component <Props, object> {
     render() {
         return (
             <div className="HDisplay">
-                Bem-vindo(a) à Taqtile!
+                {this.props.text}
             </div>
         );
     }

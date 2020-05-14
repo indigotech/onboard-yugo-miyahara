@@ -4,6 +4,7 @@ import { Input } from "./inputs";
 import { PrimaryButton } from "./buttons";
 import { Mutation, MutationFunction, MutationResult } from "react-apollo";
 import { gql } from "apollo-boost";
+import { Redirect } from "react-router-dom";
 
 interface State {
     fields: {
@@ -14,6 +15,7 @@ interface State {
         email: string;
         password: string;
     };
+    logged: boolean;
 }
 
 const LOGIN = gql`
@@ -30,6 +32,8 @@ const LOGIN = gql`
     }
 `;
 
+const authLocalStorageKey = "token";
+
 export class FormLogin extends React.Component<object, State> {
     constructor(props: object) {
         super(props);
@@ -42,6 +46,7 @@ export class FormLogin extends React.Component<object, State> {
                 email: "",
                 password: "",
             },
+            logged: !!window.localStorage.getItem(authLocalStorageKey),
         };
     }
 
@@ -84,7 +89,8 @@ export class FormLogin extends React.Component<object, State> {
                         },
                     },
                 })
-                window.localStorage.setItem('token', userResponse.data.login.token);
+                window.localStorage.setItem(authLocalStorageKey, userResponse.data.login.token);
+                this.setState({logged: true});
             } catch (error){
                 console.log(error);
             }
@@ -105,6 +111,9 @@ export class FormLogin extends React.Component<object, State> {
     };
 
     render() {
+        if (this.state.logged){
+            return <Redirect to="/home"/>
+        }
         const { errors } = this.state;
         return (
             <Mutation mutation={LOGIN}>
