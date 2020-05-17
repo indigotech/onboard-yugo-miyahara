@@ -8,8 +8,8 @@ export class Home extends React.Component {
         return (
             <div className="container">
                 <HDisplay text="Home"/>
-                <ListItem/>
-                <ListItem/>
+                <ListItem name="Dionísio Franco" email="dio@gmail.com"/>
+                <ListItem name="Dionísio Franco" email="dio@gmail.com"/>
             </div>
         );
     }

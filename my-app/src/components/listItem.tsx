@@ -1,23 +1,18 @@
 import * as React from "react";
 import "./listItem.css";
 
-interface Props{
-
+interface Props {
+    name: string;
+    email: string;
 }
 
 export class ListItem extends React.Component<Props> {
     render() {
         return (
             <div className="listItem">
-                <div className="listItemName">
-                    Zeca Blogueiro
-                </div>
-                <div className="listItemEmail">
-                    zeca.blog@blogueirão.com.br
-                </div>
+                <div className="listItemName">{this.props.name}</div>
+                <div className="listItemEmail">{this.props.email}</div>
             </div>
         );
     }
 }
-
-
