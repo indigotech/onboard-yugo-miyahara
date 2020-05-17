@@ -4,6 +4,7 @@ import loadingIcon from "../images/ic_loading.svg";
 
 interface Props{
     loading: boolean,
+    text: string,
 }
 
 export class PrimaryButton extends React.Component<Props,object>{
@@ -15,7 +16,7 @@ export class PrimaryButton extends React.Component<Props,object>{
         return (
             <button className="primary">
                 {icon}
-                Entrar
+                {this.props.text}
             </button>
         );
     }

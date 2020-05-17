@@ -148,7 +148,7 @@ export class FormLogin extends React.Component<object, State> {
                         {errors.password.length > 0 && (
                             <span className="error">{errors.password}</span>
                         )}
-                        <PrimaryButton loading={this.state.loading}/>
+                        <PrimaryButton loading={this.state.loading} text={this.state.loading ? "Carregando" : "Entrar"}/>
                     </form>
                 )}
             </Mutation>
