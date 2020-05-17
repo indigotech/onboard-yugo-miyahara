@@ -7,7 +7,7 @@ export class Login extends React.Component {
     render() {
         return (
             <div className="container">
-                <HDisplay />
+                <HDisplay text="Bem-vindo à Taqtile!"/>
                 <FormLogin />
             </div>
         );

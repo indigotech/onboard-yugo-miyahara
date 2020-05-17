@@ -4,7 +4,9 @@ import "./index.css";
 import { ApolloProvider } from "@apollo/react-hooks";
 import ApolloClient from 'apollo-boost';
 import * as serviceWorker from "./serviceWorker";
-import { Login } from "./components/login";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+
 
 export const client = new ApolloClient({
     uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
@@ -13,7 +15,9 @@ export const client = new ApolloClient({
 ReactDOM.render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <Login />
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
         </ApolloProvider>
     </React.StrictMode>,
     document.getElementById("root")
