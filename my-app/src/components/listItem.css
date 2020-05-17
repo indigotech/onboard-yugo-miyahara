@@ -1,7 +1,10 @@
-.listItem{
+.listItem {
     padding: 16px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
-.listItemName{
+.listItem:hover{
+    background-color: #e3dff7;
+}
+.listItemName {
     margin-bottom: 8px;
 }
