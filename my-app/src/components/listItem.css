@@ -1,0 +1,7 @@
+.listItem{
+    padding: 16px;
+    border: 1px solid red;
+}
+.listItemName{
+    margin-bottom: 8px;
+}
