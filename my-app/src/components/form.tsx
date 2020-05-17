@@ -16,6 +16,7 @@ interface State {
         password: string;
     };
     logged: boolean;
+    loading: boolean;
 }
 
 const LOGIN = gql`
@@ -47,6 +48,7 @@ export class FormLogin extends React.Component<object, State> {
                 password: "",
             },
             logged: !!window.localStorage.getItem(authLocalStorageKey),
+            loading: false,
         };
     }
 
@@ -76,11 +78,13 @@ export class FormLogin extends React.Component<object, State> {
 
     handleSubmit = (login: MutationFunction) => async (e: React.FormEvent) => {
         e.preventDefault();
+        
         if (
             validateErrors(this.state.errors) &&
             this.validateEmpty(this.state.fields, this.state.errors)
         ) {
             try{
+                this.setState({loading:true})
                 const userResponse = await login({
                     variables: {
                         data: {
@@ -90,9 +94,10 @@ export class FormLogin extends React.Component<object, State> {
                     },
                 })
                 window.localStorage.setItem(authLocalStorageKey, userResponse.data.login.token);
-                this.setState({logged: true});
+                this.setState({logged: true, loading: false});
             } catch (error){
                 console.log(error);
+                this.setState({loading:false})
             }
         } else {
             console.info("Formulário inválido");
@@ -143,7 +148,7 @@ export class FormLogin extends React.Component<object, State> {
                         {errors.password.length > 0 && (
                             <span className="error">{errors.password}</span>
                         )}
-                        <PrimaryButton />
+                        <PrimaryButton loading={this.state.loading}/>
                     </form>
                 )}
             </Mutation>
