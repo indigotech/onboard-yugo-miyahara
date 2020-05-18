@@ -10,6 +10,14 @@ import App from "./App";
 
 export const client = new ApolloClient({
     uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
+    request: (operation) => {
+        const token = localStorage.getItem('token');
+        operation.setContext({
+            headers: {
+                authorization: token ? `Bearer ${token}` : ''
+            }
+        })
+    }
 });
 
 ReactDOM.render(
