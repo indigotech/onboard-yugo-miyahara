@@ -11,7 +11,7 @@ export class PrimaryButton extends React.Component<PrimaryButtonProps,object>{
     render() {
         return (
             <button className="primary">
-                {this.props.loading && <img src={loadingIcon} alt="loading" className="loadingIcon" />}
+                {this.props.loading ? <img src={loadingIcon} alt="loading" className="loadingIcon" /> : null}
                 {this.props.text}
             </button>
         );
