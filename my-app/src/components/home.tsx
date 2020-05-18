@@ -5,18 +5,6 @@ import { ListItem } from "./listItem";
 import { gql } from "apollo-boost";
 import { Query, QueryResult } from "react-apollo";
 
-// const GET_USERS = gql`
-//     {
-//         users {
-//             nodes {
-//                 id
-//                 name
-//                 email
-//             }
-//         }
-//     }
-// `;
-
 const GET_USERS = gql`
     query Users {
         users {
@@ -47,14 +35,6 @@ export class Home extends React.Component {
                                         />
                                     )
                                 )}
-                                {/* <ListItem
-                                name="Dionísio Franco"
-                                email="dio@gmail.com"
-                            />
-                            <ListItem
-                                name="Dionísio Franco"
-                                email="dio@gmail.com"
-                            /> */}
                             </div>
                         </div>
                     );
