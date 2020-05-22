@@ -2,7 +2,7 @@ import * as React from "react";
 import "./buttons.css";
 import loadingIcon from "../images/ic_loading.svg";
 
-interface Props{
+interface PrimaryButtonProps {
     loading: boolean,
     text: string,
 }
