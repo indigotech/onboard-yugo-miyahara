@@ -2,17 +2,13 @@ import * as React from "react";
 import "./buttons.css";
 import loadingIcon from "../images/ic_loading.svg";
 
-interface Props{
+interface PrimaryButtonProps{
     loading: boolean,
     text: string,
 }
 
-export class PrimaryButton extends React.Component<Props,object>{
+export class PrimaryButton extends React.Component<PrimaryButtonProps,object>{
     render() {
-        // let icon;
-        // if(this.props.loading){
-        //     icon = <img src={loadingIcon} alt="loading" className="loadingIcon" />
-        // }
         return (
             <button className="primary">
                 {this.props.loading && <img src={loadingIcon} alt="loading" className="loadingIcon" />}
