@@ -9,13 +9,13 @@ interface Props{
 
 export class PrimaryButton extends React.Component<Props,object>{
     render() {
-        let icon;
-        if(this.props.loading){
-            icon = <img src={loadingIcon} alt="loading" className="loadingIcon" />
-        }
+        // let icon;
+        // if(this.props.loading){
+        //     icon = <img src={loadingIcon} alt="loading" className="loadingIcon" />
+        // }
         return (
             <button className="primary">
-                {icon}
+                {this.props.loading && <img src={loadingIcon} alt="loading" className="loadingIcon" />}
                 {this.props.text}
             </button>
         );
