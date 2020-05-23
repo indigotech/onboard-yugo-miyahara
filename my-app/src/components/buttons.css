@@ -31,3 +31,18 @@ button.primary {
         transform: rotate(360deg);
     }
 }
+
+.fab{
+    border-radius: 100px;
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    padding: 16px;
+    background-color: #6d4ff2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.fab img{
+ width: 32px;
+}
