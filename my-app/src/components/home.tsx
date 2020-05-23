@@ -28,10 +28,10 @@ const GET_USERS = gql`
 class Home_ extends React.Component <any, State> {
     constructor(props: object){
         super(props);
-        const thisPage = parseInt(this.props.location.search.replace('?page=', ''));
+        const currentPage = parseInt(this.props.location.search.replace('?page=', ''));
 
         this.state = {
-            currentPage: isNaN(thisPage) ? 1 : thisPage,
+            currentPage: isNaN(currentPage) ? 1 : currentPage,
             limit: 10,
         }
     }
@@ -78,9 +78,7 @@ class Home_ extends React.Component <any, State> {
                                 )}
                             </div>
                             <button onClick={this.previousPage}>Anterior</button>
-                            {
-                                <Pagination onclick={this.pageClick} count={Math.ceil(data.users.count/this.state.limit)}/>
-                            }
+                            <Pagination onclick={this.pageClick} count={Math.ceil(data.users.count/this.state.limit)}/>
                             <button onClick={this.nextPage}>Próxima</button>
                         </div>
                     );
