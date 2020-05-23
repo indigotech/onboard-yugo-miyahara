@@ -44,14 +44,12 @@ class Home_ extends React.Component <any, State> {
         const nextPage = this.state.currentPage + 1;
         this.setState({currentPage: nextPage});
         this.props.history.push(`/home?page=${nextPage}`);
-        console.log(this.props)
     }
 
     previousPage = () => {
         const previousPage = this.state.currentPage - 1;
         this.setState({currentPage: previousPage});
         this.props.history.push(`/home?page=${previousPage}`);
-        console.log(this.props)
     }
 
     pageClick = (page: number) =>{
