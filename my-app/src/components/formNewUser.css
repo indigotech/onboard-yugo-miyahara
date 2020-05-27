@@ -1,0 +1,23 @@
+.error{
+    color: red;
+}
+
+.fieldError{
+    border: 1px solid red;
+}
+
+.errorBox{
+    background-color: red;
+    opacity: 50%;
+    border: 2px solid red;
+    border-radius: 10px;
+    padding: 16px;
+    color: white;
+    font-weight: 500;
+}
+
+.msgBox{
+    padding: 16px;
+    background-color: #b8f7b8;
+    color: #0a410a;
+}
