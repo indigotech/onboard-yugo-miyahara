@@ -8,4 +8,11 @@ input{
     height: 36px;
     border: 1px solid gray;
     border-radius: 10px;
+    padding-left: 8px;
+}
+select{
+    height: 36px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding-left: 8px;
 }

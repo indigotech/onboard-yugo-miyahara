@@ -7,6 +7,7 @@ import { gql } from "apollo-boost";
 import { Query, QueryResult } from "react-apollo";
 import { withRouter } from "react-router";
 import { FAB } from "./buttons";
+import { Link } from "react-router-dom";
 
 interface State{
     currentPage: number,
@@ -81,7 +82,9 @@ class Home_ extends React.Component <any, State> {
                             <button onClick={this.previousPage}>Anterior</button>
                             <Pagination onclick={this.pageClick} count={Math.ceil(data.users.count/this.state.limit)}/>
                             <button onClick={this.nextPage}>Próxima</button>
-                            <FAB />
+                            <Link to="/newUser">
+                                <FAB />
+                            </Link>
                         </div>
                     );
                 }}

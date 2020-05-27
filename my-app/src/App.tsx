@@ -3,6 +3,7 @@ import "./App.css";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Login } from "./components/login";
 import { Home } from "./components/home";
+import {NewUserPage} from "./components/newUser"
 
 function App() {
     return (
@@ -28,6 +29,9 @@ const AuthRoutes = () => {
             </Route>
             <Route path="/home">
                 <Home />
+            </Route>
+            <Route path="/newUser">
+                <NewUserPage/>
             </Route>
         </>
     );
