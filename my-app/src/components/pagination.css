@@ -1,0 +1,15 @@
+.pagesContainer {
+    display: flex;
+}
+.page {
+    padding: 8px;
+    width: 36px;
+    text-align: center;
+    border: 1px solid #6d4ff2;
+    cursor: pointer;
+}
+
+.page:hover{
+    background-color: #6d4ff2;
+    color: #fff;
+}
